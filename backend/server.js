@@ -16,6 +16,9 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Hello world!");
+});
 // Connect DB and start server
 mongoose
   .connect(process.env.MONGO_URI)
