@@ -5,6 +5,9 @@ const {
   getTransaction,
   updateTransaction,
   deleteTransaction,
+  getBalanceSummary,
+  getMonthlySummary,
+  getCategorySummary,
 } = require("../controllers/transactionController");
 
 const auth = require("../middleware/authMiddleware");
@@ -16,5 +19,8 @@ router.get("/", getTransactions);
 router.get("/:id", getTransaction);
 router.put("/:id", updateTransaction);
 router.delete("/:id", deleteTransaction);
+router.get("/summary/balance", getBalanceSummary);
+router.get("/summary/categories", getCategorySummary);
+router.get("/summary/monthly", getMonthlySummary);
 
 module.exports = router;
