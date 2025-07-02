@@ -16,6 +16,14 @@ app.use(
     credentials: true,
   }),
 );
+app.options(
+  "*",
+  cors({
+    origin: ["https://expense-tracker-xi-fawn.vercel.app"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 // Routes
