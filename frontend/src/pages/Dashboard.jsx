@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../services/api";
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
@@ -20,10 +21,10 @@ function Dashboard() {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       const [summaryRes, txnRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/transactions/summary/balance", {
+        axios.get(`${API_BASE_URL}/api/transactions/summary/balance`, {
           headers,
         }),
-        axios.get("http://localhost:5000/api/transactions", { headers }),
+        axios.get(`${API_BASE_URL}/api/transactions`, { headers }),
       ]);
       setSummary(summaryRes.data);
       setTransactions(txnRes.data);
@@ -41,7 +42,7 @@ function Dashboard() {
     if (!window.confirm("Are you sure you want to delete this transaction?"))
       return;
     try {
-      await axios.delete(`http://localhost:5000/api/transactions/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/transactions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchData(); // Refresh

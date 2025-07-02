@@ -19,6 +19,7 @@ Chart.register(
   Tooltip,
   Legend,
 );
+import API_BASE_URL from "../services/api";
 
 function Reports() {
   const [categorySummary, setCategorySummary] = useState({});
@@ -34,10 +35,10 @@ function Reports() {
   const fetchReports = async () => {
     try {
       const [catRes, monthRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/transactions/summary/categories", {
+        axios.get(`${API_BASE_URL}/api/transactions/summary/categories`, {
           headers,
         }),
-        axios.get("http://localhost:5000/api/transactions/summary/monthly", {
+        axios.get(`${API_BASE_URL}/api/transactions/summary/monthly`, {
           headers,
         }),
       ]);

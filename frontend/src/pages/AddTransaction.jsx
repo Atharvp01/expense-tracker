@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../services/api";
 
 function AddTransaction() {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ function AddTransaction() {
     e.preventDefault();
     try {
       const headers = { Authorization: `Bearer ${token}` };
-      await axios.post("http://localhost:5000/api/transactions", formData, {
+      await axios.post(`${API_BASE_URL}/api/transactions`, formData, {
         headers,
       });
       navigate("/");

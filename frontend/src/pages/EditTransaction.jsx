@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import API_BASE_URL from "../services/api";
 
 function EditTransaction() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ function EditTransaction() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/transactions/${id}`, {
+      .get(`${API_BASE_URL}/api/transactions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -30,13 +31,9 @@ function EditTransaction() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `http://localhost:5000/api/transactions/${id}`,
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      await axios.put(`${API_BASE_URL}/api/transactions/${id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       navigate("/");
     } catch (err) {
       alert("Update failed");
