@@ -35,6 +35,19 @@ function Dashboard() {
     navigate("/login");
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this transaction?"))
+      return;
+    try {
+      await axios.delete(`http://localhost:5000/api/transactions/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchData(); // Refresh
+    } catch (err) {
+      alert("Delete failed");
+    }
+  };
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -93,11 +106,25 @@ function Dashboard() {
               </small>{" "}
               | <span className="badge bg-secondary">{txn.category}</span>
             </div>
-            <span
-              className={`fw-bold ${txn.type === "Income" ? "text-success" : "text-danger"}`}
-            >
-              {txn.type === "Income" ? "+" : "-"} ₹{txn.amount}
-            </span>
+            <div className="d-flex gap-2 align-items-center">
+              <span
+                className={`fw-bold ${txn.type === "Income" ? "text-success" : "text-danger"}`}
+              >
+                {txn.type === "Income" ? "+" : "-"} ₹{txn.amount}
+              </span>
+              <button
+                className="btn btn-sm btn-outline-primary"
+                onClick={() => navigate(`/edit/${txn._id}`)}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-sm btn-outline-danger"
+                onClick={() => handleDelete(txn._id)}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
