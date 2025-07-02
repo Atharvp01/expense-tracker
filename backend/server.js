@@ -11,7 +11,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["https://expense-tracker-api-pearl.vercel.app"],
+    origin: ["https://expense-tracker-xi-fawn.vercel.app/"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   }),
