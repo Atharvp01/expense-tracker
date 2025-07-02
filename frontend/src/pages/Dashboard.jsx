@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const [summary, setSummary] = useState(null);
   const [transactions, setTransactions] = useState([]);
+  const [search, setSearch] = useState("");
+
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -93,40 +95,54 @@ function Dashboard() {
         </button>
       </div>
 
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Search by description..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       <ul className="list-group">
-        {transactions.slice(0, 5).map((txn) => (
-          <li
-            key={txn._id}
-            className="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <div>
-              <strong>{txn.description}</strong> <br />
-              <small className="text-muted">
-                {new Date(txn.date).toLocaleDateString()}
-              </small>{" "}
-              | <span className="badge bg-secondary">{txn.category}</span>
-            </div>
-            <div className="d-flex gap-2 align-items-center">
-              <span
-                className={`fw-bold ${txn.type === "Income" ? "text-success" : "text-danger"}`}
-              >
-                {txn.type === "Income" ? "+" : "-"} ₹{txn.amount}
-              </span>
-              <button
-                className="btn btn-sm btn-outline-primary"
-                onClick={() => navigate(`/edit/${txn._id}`)}
-              >
-                Edit
-              </button>
-              <button
-                className="btn btn-sm btn-outline-danger"
-                onClick={() => handleDelete(txn._id)}
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
+        {transactions
+          .filter((txn) =>
+            txn.description.toLowerCase().includes(search.toLowerCase()),
+          )
+          .slice(0, 5)
+          .map((txn) => (
+            <li
+              key={txn._id}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <strong>{txn.description}</strong>
+                <br />
+                <small className="text-muted">
+                  {new Date(txn.date).toLocaleDateString()}
+                </small>{" "}
+                | <span className="badge bg-secondary">{txn.category}</span>
+              </div>
+              <div className="d-flex gap-2 align-items-center">
+                <span
+                  className={`fw-bold ${txn.type === "Income" ? "text-success" : "text-danger"}`}
+                >
+                  {txn.type === "Income" ? "+" : "-"} ₹{txn.amount}
+                </span>
+                <button
+                  className="btn btn-sm btn-outline-primary"
+                  onClick={() => navigate(`/edit/${txn._id}`)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={() => handleDelete(txn._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
       </ul>
     </div>
   );
